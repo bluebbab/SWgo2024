@@ -95,7 +95,7 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	USceneComponent* HideEffectPoint;
 
-	float Radius = 15.f;
+	float Radius = 500.f;
 
 	bool FlowControl = true;
 

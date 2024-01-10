@@ -4,11 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "InteractInterface.h"
 #include "Newspaper.generated.h"
 
 UCLASS()
-class SCJ_API ANewspaper : public AActor, public IInteractInterface
+class SCJ_API ANewspaper : public AActor
 {
 	GENERATED_BODY()
 	
@@ -23,8 +22,6 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	virtual void Interact() override;
 
 private:
 

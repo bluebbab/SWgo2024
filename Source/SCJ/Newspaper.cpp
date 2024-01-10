@@ -32,12 +32,3 @@ void ANewspaper::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
-
-void ANewspaper::Interact()
-{
-	UE_LOG(LogTemp, Warning, TEXT("NewsPaper Interface has Executed!"));
-	if (WarnAboutDrugsWidget == nullptr) return;
-
-	WarnAboutDrugsWidget->AddToViewport();
-}
-
