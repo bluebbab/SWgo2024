@@ -203,11 +203,12 @@ void ASCJCharacter::Interact()
 		End,
 		FQuat::Identity,
 		ECollisionChannel::ECC_GameTraceChannel1,
-		FCollisionShape::MakeSphere(15.f),
+		FCollisionShape::MakeSphere(100.f),
 		TraceParams);
 
 	if (bIsHit)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("Hit!"))
 		AActor* HitActor = HitResult.GetActor();
 		IInteractInterface* Interface = Cast<IInteractInterface>(HitActor);
 		if (Interface)
