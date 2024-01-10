@@ -11,7 +11,6 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "Kismet/GameplayStatics.h"
-#include "InteractInterface.h"
 #include "NiagaraComponent.h"
 #include "NiagaraFunctionLibrary.h"
 #include "Kismet/KismetSystemLibrary.h"
@@ -188,33 +187,5 @@ void ASCJCharacter::Hide()
 				true);
 		}
 		FlowControl = true;
-	}
-}
-
-void ASCJCharacter::Interact()
-{
-	FVector Start = GetActorLocation();
-	FVector End = GetActorLocation();
-	FHitResult HitResult;
-	FCollisionQueryParams TraceParams;
-	TraceParams.AddIgnoredActor(this);
-
-	bool bIsHit = GetWorld()->SweepSingleByChannel(HitResult,
-		Start,
-		End,
-		FQuat::Identity,
-		ECollisionChannel::ECC_GameTraceChannel1,
-		FCollisionShape::MakeSphere(100.f),
-		TraceParams);
-
-	if (bIsHit)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Hit!"));
-		AActor* HitActor = HitResult.GetActor();
-		IInteractInterface* Interface = Cast<IInteractInterface>(HitActor);
-		if (Interface)
-		{
-			Interface->Interact();
-		}
 	}
 }
