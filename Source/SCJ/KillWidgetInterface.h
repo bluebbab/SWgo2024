@@ -24,5 +24,6 @@ class SCJ_API IKillWidgetInterface
 public:
 
 	virtual void AttachKillWidget() = 0;
+	virtual void AttachWinWidget() = 0;
 
 };

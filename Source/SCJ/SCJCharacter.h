@@ -73,6 +73,7 @@ protected:
 	virtual void BeginPlay();
 
 	virtual void AttachKillWidget() override;
+	virtual void AttachWinWidget() override;
 
 public:
 	/** Returns CameraBoom subobject **/
@@ -101,6 +102,12 @@ private:
 
 	UPROPERTY()
 	UUserWidget* KillWidgetRef;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UUserWidget> WinWidget;
+
+	UPROPERTY()
+	UUserWidget* WinWidgetRef;
 
 	float Radius = 500.f;
 

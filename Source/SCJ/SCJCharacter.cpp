@@ -90,6 +90,17 @@ void ASCJCharacter::AttachKillWidget()
 	}
 }
 
+void ASCJCharacter::AttachWinWidget()
+{
+	UE_LOG(LogTemp, Warning, TEXT("WinWidget Interface is Executed!"));
+	if (WinWidget)
+	{
+		WinWidgetRef = CreateWidget<UUserWidget>(GetWorld(), WinWidget);
+		if (WinWidgetRef)
+			WinWidgetRef->AddToViewport();
+	}
+}
+
 APlayerController* ASCJCharacter::GetPlayerController() const
 {
 	return UGameplayStatics::GetPlayerController(GetWorld(), 0);

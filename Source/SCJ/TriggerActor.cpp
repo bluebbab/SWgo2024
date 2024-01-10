@@ -4,6 +4,7 @@
 #include "TriggerActor.h"
 #include "Components/BoxComponent.h"
 #include "SCJCharacter.h"
+#include "KillWidgetInterface.h"
 
 // Sets default values
 ATriggerActor::ATriggerActor()
@@ -33,10 +34,20 @@ void ATriggerActor::Tick(float DeltaTime)
 
 void ATriggerActor::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (ASCJCharacter* Player = Cast<ASCJCharacter>(OtherActor))
+	if (ActorToDestroy)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Player is Overlapped"));
-		GetWorld()->DestroyActor(ActorToDestroy);
+		if (ASCJCharacter* Player = Cast<ASCJCharacter>(OtherActor))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Player is Overlapped"));
+			GetWorld()->DestroyActor(ActorToDestroy);
+		}
+	}
+	else
+	{
+		if (IKillWidgetInterface* Interface = Cast<IKillWidgetInterface>(OtherActor))
+		{
+			Interface->AttachWinWidget();
+		}
 	}
 }
 
