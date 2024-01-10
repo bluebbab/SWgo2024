@@ -208,7 +208,7 @@ void ASCJCharacter::Interact()
 
 	if (bIsHit)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Hit!"))
+		UE_LOG(LogTemp, Warning, TEXT("Hit!"));
 		AActor* HitActor = HitResult.GetActor();
 		IInteractInterface* Interface = Cast<IInteractInterface>(HitActor);
 		if (Interface)
