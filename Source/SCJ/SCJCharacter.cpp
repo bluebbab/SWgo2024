@@ -98,9 +98,7 @@ void ASCJCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 		// Hiding
 		EnhancedInputComponent->BindAction(HideAction, ETriggerEvent::Triggered, this, &ASCJCharacter::Hide);
 
-		// Interact system
-		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Triggered, this, &ASCJCharacter::Interact);
-	}
+}
 	else
 	{
 		UE_LOG(LogTemplateCharacter, Error, TEXT("'%s' Failed to find an Enhanced Input component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));

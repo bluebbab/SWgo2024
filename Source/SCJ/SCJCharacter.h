@@ -63,8 +63,6 @@ protected:
 	void Look(const FInputActionValue& Value);
 
 	void Hide();
-			
-	void Interact();
 
 protected:
 	// APawn interface
