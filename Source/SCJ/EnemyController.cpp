@@ -10,6 +10,7 @@
 #include "SCJCharacter.h"
 #include "BB_Keys.h"
 #include "EnemyCharacter.h"
+#include "KillWidgetInterface.h"
 
 AEnemyController::AEnemyController(FObjectInitializer const& ObjectInitializer)
 {
@@ -45,6 +46,10 @@ void AEnemyController::OnTargetDetected(AActor* Actor, FAIStimulus const Stimulu
 		if (Player->ActorHasTag(TEXT("UnHide")))
 		{
 			BlackboardtoUse->SetValueAsBool(BB_Keys::Can_See_Player, Stimulus.WasSuccessfullySensed());
+			if (IKillWidgetInterface* Interface = Cast<IKillWidgetInterface>(Player))
+			{
+				Interface->AttachKillWidget();
+			}
 		}
 	}
 }

@@ -14,6 +14,7 @@
 #include "NiagaraComponent.h"
 #include "NiagaraFunctionLibrary.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "Blueprint/UserWidget.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -72,6 +73,19 @@ void ASCJCharacter::BeginPlay()
 		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
 		{
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
+		}
+	}
+}
+
+void ASCJCharacter::AttachKillWidget()
+{
+	UE_LOG(LogTemp, Warning, TEXT("KillWidget Interface is Executed!"));
+	if (KillWidget)
+	{
+		KillWidgetRef = CreateWidget<UUserWidget>(GetWorld(), KillWidget);
+		if (KillWidgetRef)
+		{
+			KillWidgetRef->AddToViewport();
 		}
 	}
 }

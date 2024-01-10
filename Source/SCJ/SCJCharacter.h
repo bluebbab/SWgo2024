@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
+#include "KillWidgetInterface.h"
 #include "SCJCharacter.generated.h"
 
 class USpringArmComponent;
@@ -16,7 +17,7 @@ struct FInputActionValue;
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
 UCLASS(config=Game)
-class ASCJCharacter : public ACharacter
+class ASCJCharacter : public ACharacter, public IKillWidgetInterface
 {
 	GENERATED_BODY()
 
@@ -71,6 +72,8 @@ protected:
 	// To add mapping context
 	virtual void BeginPlay();
 
+	virtual void AttachKillWidget() override;
+
 public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
@@ -92,6 +95,12 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	USceneComponent* HideEffectPoint;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UUserWidget> KillWidget;
+
+	UPROPERTY()
+	UUserWidget* KillWidgetRef;
 
 	float Radius = 500.f;
 
