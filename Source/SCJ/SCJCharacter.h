@@ -7,6 +7,7 @@
 #include "Logging/LogMacros.h"
 #include "KillWidgetInterface.h"
 #include "SCJCharacter.generated.h"
+#include "InteractInterface.h"
 
 class USpringArmComponent;
 class UCameraComponent;
@@ -17,7 +18,7 @@ struct FInputActionValue;
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
 UCLASS(config=Game)
-class ASCJCharacter : public ACharacter, public IKillWidgetInterface
+class ASCJCharacter : public ACharacter, public IKillWidgetInterface, public IInteractInterface
 {
 	GENERATED_BODY()
 
@@ -51,10 +52,12 @@ class ASCJCharacter : public ACharacter, public IKillWidgetInterface
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* InteractAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* InteractAction;
+
 public:
 	ASCJCharacter();
 	
-
 protected:
 
 	/** Called for movement input */
@@ -64,6 +67,7 @@ protected:
 	void Look(const FInputActionValue& Value);
 
 	void Hide();
+	void Interact();
 
 protected:
 	// APawn interface
@@ -109,7 +113,8 @@ private:
 	UPROPERTY()
 	UUserWidget* WinWidgetRef;
 
-	float Radius = 500.f;
+	UPROPERTY(EditDefaultsOnly)
+	float Radius = 100.f;
 
 	bool FlowControl = true;
 

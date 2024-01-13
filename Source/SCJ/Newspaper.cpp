@@ -32,3 +32,7 @@ void ANewspaper::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
+
+void ANewspaper::Interact()
+{
+}

@@ -123,6 +123,8 @@ void ASCJCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 		// Hiding
 		EnhancedInputComponent->BindAction(HideAction, ETriggerEvent::Triggered, this, &ASCJCharacter::Hide);
 
+		// Interact
+		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Triggered, this, &ASCJCharacter::Interact);
 }
 	else
 	{
@@ -210,5 +212,34 @@ void ASCJCharacter::Hide()
 				true);
 		}
 		FlowControl = true;
+	}
+}
+
+void ASCJCharacter::Interact()
+{
+	FVector Start = GetActorLocation();
+	FVector End = GetActorLocation();
+	TArray<TEnumAsByte<EObjectTypeQuery>> ObjectTypes;
+	ObjectTypes.Emplace(UEngineTypes::ConvertToObjectType(ECollisionChannel::ECC_GameTraceChannel2));
+	TArray<AActor*> ActorsToIgnore;
+	ActorsToIgnore.Emplace(this->GetOwner());
+	FHitResult HitResult;
+	bool HasHit = UKismetSystemLibrary::SphereTraceSingleForObjects(GetWorld(),
+		Start,
+		End,
+		Radius,
+		ObjectTypes,
+		false,
+		ActorsToIgnore,
+		EDrawDebugTrace::ForDuration,
+		HitResult,
+		true);
+
+	if (HasHit)
+	{
+		if (IInteractInterface* Interface = Cast<IInteractInterface>(HitResult.GetActor()))
+		{
+			Interface->Interact();
+		}
 	}
 }
