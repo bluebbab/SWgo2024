@@ -6,8 +6,8 @@
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
 #include "KillWidgetInterface.h"
-#include "SCJCharacter.generated.h"
 #include "InteractInterface.h"
+#include "SCJCharacter.generated.h"
 
 class USpringArmComponent;
 class UCameraComponent;
@@ -52,9 +52,6 @@ class ASCJCharacter : public ACharacter, public IKillWidgetInterface, public IIn
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* InteractAction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction* InteractAction;
-
 public:
 	ASCJCharacter();
 	
@@ -80,6 +77,10 @@ protected:
 	virtual void AttachWinWidget() override;
 
 public:
+
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
@@ -117,6 +118,9 @@ private:
 	float Radius = 100.f;
 
 	bool FlowControl = true;
+
+	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	bool bCanInteract = true;
 
 };
 

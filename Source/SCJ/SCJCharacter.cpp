@@ -15,6 +15,7 @@
 #include "NiagaraFunctionLibrary.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Blueprint/UserWidget.h"
+#include "Kismet/KismetStringLibrary.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -99,6 +100,13 @@ void ASCJCharacter::AttachWinWidget()
 		if (WinWidgetRef)
 			WinWidgetRef->AddToViewport();
 	}
+}
+
+void ASCJCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	UE_LOG(LogTemp, Warning, TEXT("bCanInteract : %s"), *UKismetStringLibrary::Conv_BoolToString(bCanInteract));
 }
 
 APlayerController* ASCJCharacter::GetPlayerController() const
@@ -217,29 +225,32 @@ void ASCJCharacter::Hide()
 
 void ASCJCharacter::Interact()
 {
-	FVector Start = GetActorLocation();
-	FVector End = GetActorLocation();
-	TArray<TEnumAsByte<EObjectTypeQuery>> ObjectTypes;
-	ObjectTypes.Emplace(UEngineTypes::ConvertToObjectType(ECollisionChannel::ECC_GameTraceChannel2));
-	TArray<AActor*> ActorsToIgnore;
-	ActorsToIgnore.Emplace(this->GetOwner());
-	FHitResult HitResult;
-	bool HasHit = UKismetSystemLibrary::SphereTraceSingleForObjects(GetWorld(),
-		Start,
-		End,
-		Radius,
-		ObjectTypes,
-		false,
-		ActorsToIgnore,
-		EDrawDebugTrace::ForDuration,
-		HitResult,
-		true);
-
-	if (HasHit)
+	if (bCanInteract)
 	{
-		if (IInteractInterface* Interface = Cast<IInteractInterface>(HitResult.GetActor()))
+		FVector Start = GetActorLocation();
+		FVector End = GetActorLocation();
+		TArray<TEnumAsByte<EObjectTypeQuery>> ObjectTypes;
+		ObjectTypes.Emplace(UEngineTypes::ConvertToObjectType(ECollisionChannel::ECC_GameTraceChannel2));
+		TArray<AActor*> ActorsToIgnore;
+		ActorsToIgnore.Emplace(this->GetOwner());
+		FHitResult HitResult;
+		bool HasHit = UKismetSystemLibrary::SphereTraceSingleForObjects(GetWorld(),
+			Start,
+			End,
+			Radius,
+			ObjectTypes,
+			false,
+			ActorsToIgnore,
+			EDrawDebugTrace::ForDuration,
+			HitResult,
+			true);
+		if (HasHit)
 		{
-			Interface->Interact();
+			bCanInteract = false;
+			if (IInteractInterface* Interface = Cast<IInteractInterface>(HitResult.GetActor()))
+			{
+				Interface->Interact();
+			}
 		}
 	}
 }

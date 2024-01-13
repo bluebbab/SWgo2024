@@ -35,5 +35,8 @@ private:
 	class USphereComponent* SphereCollision;
 
 	UPROPERTY(EditDefaultsOnly, Category = Widget, meta = (AllowPrivateAccess = "true"))
-	class UUserWidget* WarnAboutDrugsWidget;
+	TSubclassOf<UUserWidget> WarnAboutDrugWidget;
+
+	UPROPERTY()
+	UUserWidget* WarnAboutDrugWidgetRef;
 };

@@ -5,6 +5,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Components/SphereComponent.h"
 #include "Blueprint/UserWidget.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ANewspaper::ANewspaper()
@@ -35,4 +36,13 @@ void ANewspaper::Tick(float DeltaTime)
 
 void ANewspaper::Interact()
 {
+	if (WarnAboutDrugWidget)
+	{
+		WarnAboutDrugWidgetRef = CreateWidget<UUserWidget>(GetWorld(), WarnAboutDrugWidget);
+		if (WarnAboutDrugWidgetRef)
+		{
+			WarnAboutDrugWidgetRef->AddToViewport();
+			UGameplayStatics::SetGamePaused(GetWorld(), true);
+		}
+	}
 }
